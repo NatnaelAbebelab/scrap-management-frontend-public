@@ -1,0 +1,108 @@
+<Card>
+      <CardHeader>
+        <CardTitle>Internal Transport Records</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="rounded-md border">
+          <div className="relative max-h-[500px] overflow-auto">
+            <table className="w-full min-w-[800px] caption-bottom text-sm">
+              <thead className="sticky top-0 bg-background">
+                <tr className="border-b transition-colors hover:bg-muted/50">
+                  <th className="h-12 px-4 text-left align-middle font-medium">ID</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Date</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Origin</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Destination</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Vehicle ID</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Driver</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Material Type</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Weight (tons)</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Transit Time</th>
+                  <th className="h-12 px-4 text-left align-middle font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentData.map((record) => (
+                  <tr key={record.id} className="border-b transition-colors hover:bg-muted/50">
+                    <td className="p-4 align-middle">{record.id}</td>
+                    <td className="p-4 align-middle">{record.date}</td>
+                    <td className="p-4 align-middle">{record.origin}</td>
+                    <td className="p-4 align-middle">{record.destination}</td>
+                    <td className="p-4 align-middle">{record.vehicleId}</td>
+                    <td className="p-4 align-middle">{record.driver}</td>
+                    <td className="p-4 align-middle">{record.materialType}</td>
+                    <td className="p-4 align-middle">{record.weight}</td>
+                    <td className="p-4 align-middle">{record.transitTime}</td>
+                    <td className="p-4 align-middle">
+                      <Badge className={getStatusColor(record.status)}>{record.status}</Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <p className="text-sm text-muted-foreground">Rows per page</p>
+          <Select value={pageSize.toString()} onValueChange={handlePageSizeChange}>
+            <SelectTrigger className="h-8 w-[70px]">
+              <SelectValue placeholder={pageSize.toString()} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5</SelectItem>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center space-x-2">
+          <p className="text-sm text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </p>
+          <div className="flex items-center space-x-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => goToPage(1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronsLeft className="h-4 w-4" />
+              <span className="sr-only">First page</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Previous page</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="h-4 w-4" />
+              <span className="sr-only">Next page</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => goToPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronsRight className="h-4 w-4" />
+              <span className="sr-only">Last page</span>
+            </Button>
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
